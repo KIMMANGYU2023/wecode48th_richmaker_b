@@ -1,7 +1,9 @@
 const { authDao } = require("../models");
 
 const getCIByPhoneNumber = async (phoneNumber) => {
-  return await authDao.getCIByPhoneNumber(phoneNumber);
+  const userInfo = await authDao.getCIByPhoneNumber(phoneNumber);
+
+  return userInfo;
 };
 
 module.exports = {

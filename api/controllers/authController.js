@@ -12,16 +12,16 @@ const sendCI = catchAsync(async (req, res) => {
   }
 
   try {
-    const userInfo = await authService.getCIByPhoneNumber(phoneNumber);
+    const ciValue = await authService.getCIByPhoneNumber(phoneNumber);
 
-    if (!userInfo) {
+    if (!ciValue) {
       const error = new Error(`INVALID_USER`);
       error.statusCode = 401;
 
       throw error;
     }
 
-    res.status(200).json({ userInfo });
+    res.status(200).json(ciValue);
   } catch (error) {
     res.status(error.statusCode).json({ message: error.message });
   }
