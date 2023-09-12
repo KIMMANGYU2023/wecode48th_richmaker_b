@@ -1,4 +1,4 @@
-const { AppDataSource } = require("./dataSource");
+const { AppDataSource } = require("./dataSourceAuth");
 
 const getCIByPhoneNumber = async (phoneNumber) => {
   const [result] = await AppDataSource.query(

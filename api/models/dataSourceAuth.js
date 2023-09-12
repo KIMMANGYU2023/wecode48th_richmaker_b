@@ -1,12 +1,12 @@
 const { DataSource } = require("typeorm");
 
 const AppDataSource = new DataSource({
-  type: process.env.DB_TYPE,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  type: process.env.AUTHDB_TYPE,
+  host: process.env.AUTHDB_HOST,
+  port: process.env.AUTHDB_PORT,
+  username: process.env.AUTHDB_USERNAME,
+  password: process.env.AUTHDB_PASSWORD,
+  database: process.env.AUTHDB_DATABASE,
 });
 
 AppDataSource.initialize()
