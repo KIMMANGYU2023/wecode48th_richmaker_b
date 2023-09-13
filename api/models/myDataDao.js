@@ -1,21 +1,34 @@
 const { AppDataSource } = require("./dataSourceMyData");
 
-const getHistoriesByCI = async (CI, providerID) => {
+const getAccountsByCI = async (CI, providerIDs) => {
   try {
-    const updateHistories = await AppDataSource.query(
+    const results = await AppDataSource.query(
       `
-      UPDATE histories
-      SET 
-        is_get = 1
-      WHERE is_get = 0 AND CI = ? AND provider_id IN (?)
+      SELECT
+	      provider_id AS providerID, 
+	      account_number AS financeNumber
+      FROM histories
+      WHERE is_get = 0
+	      AND CI = ?
+	      AND provider_id IN (?)
+      GROUP BY 
+        provider_id, 
+        account_number
       `,
-      [CI, providerID]
+      [CI, providerIDs]
     );
 
-    const updatedRows = updateHistories.affectedRows;
+    return results;
+  } catch {
+    const error = new Error("NO_RECORDS");
+    error.statusCode = 400;
 
-    if (updatedRows <= 0) throw new Error("NO_RECORDS");
+    throw error;
+  }
+};
 
+const getHistoriesByCI = async (CI, providerID, financeNumber) => {
+  try {
     const results = await AppDataSource.query(
       `
       SELECT
@@ -27,16 +40,19 @@ const getHistoriesByCI = async (CI, providerID) => {
         is_monthly AS isMonthly, 
         amount, 
         transaction_note AS transactionNote, 
-        account_number 
+        account_number AS financeNumber
       FROM histories
       WHERE 
-        is_get = 1
-        AND CI = ?
-        AND provider_id IN (?)
-      ORDER BY id
+        is_get = 0 
+        AND CI = ? 
+        AND provider_id = ? 
+        AND account_number = ?
+      ORDER BY id;
+      -- UPDATE histories SET is_get = 1 WHERE CI = ?;
       `,
-      [CI, providerID]
+      [CI, providerID, financeNumber, CI]
     );
+
     return results;
   } catch {
     const error = new Error("NO_RECORDS");
@@ -47,5 +63,6 @@ const getHistoriesByCI = async (CI, providerID) => {
 };
 
 module.exports = {
+  getAccountsByCI,
   getHistoriesByCI,
 };

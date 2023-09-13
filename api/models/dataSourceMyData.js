@@ -7,6 +7,7 @@ const AppDataSource = new DataSource({
   username: process.env.MYDATADB_USERNAME,
   password: process.env.MYDATADB_PASSWORD,
   database: process.env.MYDATADB_DATABASE,
+  multipleStatements: true,
 });
 
 AppDataSource.initialize()
