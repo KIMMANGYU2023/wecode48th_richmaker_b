@@ -3,6 +3,6 @@ const { authController } = require("../controllers");
 
 const router = express.Router();
 
-router.post("", authController.sendCI);
+router.get("", authController.sendCI);
 
 module.exports = router;
