@@ -48,7 +48,7 @@ const getHistoriesByCI = async (CI, providerID, financeNumber) => {
         AND provider_id = ? 
         AND account_number = ?
       ORDER BY id;
-      -- UPDATE histories SET is_get = 1 WHERE CI = ?;
+      UPDATE histories SET is_get = 1 WHERE CI = ?;
       `,
       [CI, providerID, financeNumber, CI]
     );
