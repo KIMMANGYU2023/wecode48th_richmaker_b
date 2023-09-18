@@ -3,7 +3,7 @@ const { myDataController } = require("../controllers");
 
 const router = express.Router();
 
-router.get("", myDataController.sendHistories);
-router.get("/account", myDataController.sendAccounts);
+router.post("", myDataController.sendHistories);
+router.post("/account", myDataController.sendAccounts);
 
 module.exports = router;
