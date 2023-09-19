@@ -1,5 +1,6 @@
 const { myDataService } = require("../services");
 const { catchAsync } = require("../utils/error");
+const { encrypt, decrypt } = require("../utils/crypto");
 
 const sendAccounts = catchAsync(async (req, res) => {
   const { CI, providerIDs } = req.body;
@@ -21,7 +22,9 @@ const sendAccounts = catchAsync(async (req, res) => {
       throw error;
     }
 
-    res.status(200).json({ data: accounts });
+    const encryptedAccounts = encrypt(accounts);
+
+    res.status(200).json({ data: encryptedAccounts });
   } catch (error) {
     res.status(error.statusCode).json({ message: error.message });
   }
@@ -51,7 +54,9 @@ const sendHistories = catchAsync(async (req, res) => {
       throw error;
     }
 
-    res.status(200).json({ data: histories });
+    const encryptedHistories = encrypt(histories);
+
+    res.status(200).json({ data: encryptedHistories });
   } catch (error) {
     res.status(error.statusCode).json({ message: error.message });
   }

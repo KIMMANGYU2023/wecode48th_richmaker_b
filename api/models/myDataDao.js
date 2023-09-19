@@ -6,14 +6,16 @@ const getAccountsByCI = async (CI, providerIDs) => {
       `
       SELECT
 	      provider_id AS providerID, 
-	      account_number AS financeNumber
+	      account_number AS financeNumber,
+        account_name AS financeName
       FROM histories
       WHERE is_get = 0
 	      AND CI = ?
 	      AND provider_id IN (?)
       GROUP BY 
         provider_id, 
-        account_number
+        account_number,
+        account_name
       `,
       [CI, providerIDs]
     );
@@ -40,7 +42,8 @@ const getHistoriesByCI = async (CI, providerID, financeNumber) => {
         is_monthly AS isMonthly, 
         amount, 
         transaction_note AS transactionNote, 
-        account_number AS financeNumber
+        account_number AS financeNumber,
+        account_name AS financeName
       FROM histories
       WHERE 
         is_get = 0 
